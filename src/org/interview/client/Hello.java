@@ -91,6 +91,7 @@ public class Hello implements EntryPoint {
 	    nameField.setText("Gwt User");
         // We can add style names to widgets
         sendButton.addStyleName("sendButton");
+        sendButton.addStyleName("red");
         
         // Focus the cursor on the name field when the app loads
         nameField.setFocus(true);
@@ -138,6 +139,15 @@ public class Hello implements EntryPoint {
                     sendNameToServer();
                 }
             }
+            
+            //create ad handler for clearPersonButton
+            class MyHandler2 implements ClickHandler {
+            	//clear person information
+            	public void onClick(ClickEvent event){
+            		clearPersonInformation();            		
+            	}
+            	
+            }
 
             /**
              * Send the name from the nameField to the server and wait for a response.
@@ -147,7 +157,7 @@ public class Hello implements EntryPoint {
                 errorLabel.setText("");
                 String textToServer = nameField.getText();
                 if (!FieldVerifier.isValidName(textToServer)) {
-                    errorLabel.setText("Please enter more than 4 caracters");
+                    errorLabel.setText("Please enter less than 4 caracters");
                     return;
                 }
 
@@ -182,6 +192,10 @@ public class Hello implements EntryPoint {
         MyHandler handler = new MyHandler();
         sendButton.addClickHandler(handler);
         nameField.addKeyUpHandler(handler);
+        
+        // Add Clear Person Hander to clearpseronbutton
+        MyHandler2 handler2 = new MyHandler2();
+        clearPersonButton.addClickHandler(handler2);
 
         /* Layout for person information*/
         FlexTable layout = new FlexTable();
@@ -243,6 +257,12 @@ public class Hello implements EntryPoint {
 	private void updatePersonInformation(PersonInfo person){
 		personId.setText(String.valueOf(person.getPersonID()));
 		personName.setText(person.getName());
+	}
+	
+	private void clearPersonInformation()
+	{
+		personId.setText("");
+		personName.setText("");
 	}
 	
 }
