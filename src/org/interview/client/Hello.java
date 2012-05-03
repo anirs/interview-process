@@ -67,6 +67,8 @@ public class Hello implements EntryPoint {
     
     DecoratorPanel personPanel = new DecoratorPanel();
     
+    private static int count;
+    
     
     /**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
@@ -91,6 +93,7 @@ public class Hello implements EntryPoint {
 	    nameField.setText("Gwt User");
         // We can add style names to widgets
         sendButton.addStyleName("sendButton");
+        sendButton.addStyleName("red");
         
         // Focus the cursor on the name field when the app loads
         nameField.setFocus(true);
@@ -138,6 +141,30 @@ public class Hello implements EntryPoint {
                     sendNameToServer();
                 }
             }
+            
+           class ClearPersonHandler implements ClickHandler {
+            /**
+             * Fired when the user clicks on the clearPeronButton.
+             */
+            public void onClick(ClickEvent event) {
+                
+            }
+			personId.setText("");
+			personName.setText("");
+    
+            }
+            
+            class CountCallHandler implements ClickHandler {
+            /**
+             * Fired when the user clicks on the clearPeronButton.
+             */
+            public void onClick(ClickEvent event) {
+                
+            }
+            		count = countCallService.countCall(count);
+			countCallLabel.setText(count);
+    
+            }
 
             /**
              * Send the name from the nameField to the server and wait for a response.
@@ -183,6 +210,14 @@ public class Hello implements EntryPoint {
         sendButton.addClickHandler(handler);
         nameField.addKeyUpHandler(handler);
 
+ 	// Add a handler to clear Person Button
+        ClearPersonHandler handlerClearPerson = new ClearPersonHandler();
+        clearPersonButton.addClickHandler(handlerClearPerson);
+        
+         	// Add a handler to count Call Button
+        CountCallHandler handlerCountCall = new CountCallHandler();
+        countCallButton.addClickHandler(handlerCountCall);
+        
         /* Layout for person information*/
         FlexTable layout = new FlexTable();
         layout.setCellSpacing(6);
